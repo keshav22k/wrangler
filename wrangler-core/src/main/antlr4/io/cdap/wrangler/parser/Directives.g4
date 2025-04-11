@@ -140,7 +140,7 @@ numberRange
  ;
 
 value
- : String | Number | Column | Bool
+ : String | Number | Column | Bool | BYTE_SIZE | TIME_DURATION 
  ;
 
 ecommand
@@ -166,6 +166,9 @@ number
 bool
  : Bool
  ;
+ byteSizeArg : BYTE_SIZE ;
+timeDurationArg : TIME_DURATION ;
+
 
 condition
  : OBrace (~CBrace | condition)* CBrace
@@ -246,6 +249,13 @@ Pipe     : '|';
 BackSlash: '\\';
 Dollar   : '$';
 Tilde    : '~';
+// BYTE_SIZE tokens for parsing values like "10KB", "1.5MB", etc.
+BYTE_SIZE : DIGITS ('.' DIGITS)? BYTE_UNIT ;
+fragment BYTE_UNIT : 'B' | 'KB' | 'MB' | 'GB' | 'TB' ;
+// TIME_DURATION tokens for parsing values like "150ms", "2.1s", etc.
+TIME_DURATION : DIGITS ('.' DIGITS)? TIME_UNIT ;
+fragment TIME_UNIT : 'ms' | 's' | 'm' | 'h' ;
+
 
 
 Bool
